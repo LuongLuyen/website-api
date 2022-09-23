@@ -3,24 +3,15 @@ const Film = require("../models/Film")
 const filmController ={
     //add film
     addFilm: async (req, res) => {
-        const { title, content } = req.body
-        // validation
-        if (!title)
-        return 
-            res.status(400).json()
+        const { title,content} = req.body
         try {
-            // Check for existing film
-            const film = await Film.findOne({ title })
-            if (film)
-                return 
-                    res.status(400).json()
             //create film
             const newFilm = new Film({ title, content})
             //film save DB
-            await newFilm.save()
+            await newFilm.save(newFilm)
             res.status(200).json(newFilm)
         } catch (err) {
-            res.status(500).json(err)
+            res.status(500).json()
         }
     },
     //get all film

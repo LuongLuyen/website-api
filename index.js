@@ -7,6 +7,10 @@ const postsRoute = require("./routers/posts")
 const app = express()
 const PORT = process.env.port || 5000
 
+const multer = require("multer")
+const path = require("path")
+
+
 dotenv.config()
 
 
@@ -30,6 +34,7 @@ const connectDB = async () => {
 }
 
 connectDB()
+
 
 app.use('/api/posts', postsRoute)
 app.listen(PORT, ()=>{
