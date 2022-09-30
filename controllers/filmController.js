@@ -3,19 +3,20 @@ const Film = require("../models/Film")
 const filmController ={
     //add film
     addFilm: async (req, res) => {
-        const { title,content} = req.body
+        let { name,title,content} = req.body
+        content= `http://localhost:5000/uploads/${content}`
         // validation
-        if (!title)
+        if (!name)
         return 
             res.status(400).json()
         try {
             // Check for existing film
-            const film = await Film.findOne({ title })
+            const film = await Film.findOne({ name })
             if (film)
                 return 
                     res.status(400).json()
             //create film
-            const newFilm = new Film({ title, content})
+            const newFilm = new Film({ name,title, content})
             //film save DB
             await newFilm.save(newFilm)
             res.status(200).json(newFilm)
@@ -36,4 +37,3 @@ const filmController ={
 }
 
 module.exports = filmController
-

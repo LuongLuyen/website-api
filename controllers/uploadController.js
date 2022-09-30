@@ -11,7 +11,8 @@ const uploadController ={
         }
     },
     // postUpload
-    postUpload:(req, res) => {
+    postUpload: async(req, res) => {
+   
         const diskStorage = multer.diskStorage({
             destination: (req, file, callback) => {
             callback(null, "uploads");
@@ -21,9 +22,10 @@ const uploadController ={
             if (math.indexOf(file.mimetype) === -1) {
                 return callback(null)
             }
-            const filename = `${Date.now()}-File-${file.originalname}`
+            const filename = `${file.originalname}`
             callback(null, filename)
             }
+            
         })
         const uploadFile = multer({storage: diskStorage}).single("file")
         uploadFile(req, res, (error) => {
@@ -32,6 +34,7 @@ const uploadController ={
           }
           res.send('Upload thanh cong')
         })
-    }
+    },
+    
 }
 module.exports =uploadController
