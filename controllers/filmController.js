@@ -1,10 +1,12 @@
 const Film = require("../models/Film")
 
+
 const filmController ={
     //add film
     addFilm: async (req, res) => {
-        let { name,title,content} = req.body
-        content= `http://localhost:5000/uploads/${content}`
+        let { name,title,video} = req.body
+        video= `http://localhost:5000/uploads/${video}`
+        const img ='http://localhost:5000/uploads/a.jpg'
         // validation
         if (!name)
         return 
@@ -16,7 +18,7 @@ const filmController ={
                 return 
                     res.status(400).json()
             //create film
-            const newFilm = new Film({ name,title, content})
+            const newFilm = new Film({ name,title, video,img})
             //film save DB
             await newFilm.save(newFilm)
             res.status(200).json(newFilm)
