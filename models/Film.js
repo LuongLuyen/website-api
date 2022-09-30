@@ -9,7 +9,11 @@ const Schema = new mongoose.Schema({
         type:String,
         required:true
     },
-    content:{
+    video:{
+        type:String,
+        required:true
+    },
+    img:{
         type:String,
         required:true
     },
