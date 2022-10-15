@@ -1,11 +1,12 @@
 const Film = require("../models/Film")
 
-
 const filmController ={
+
     //add film
     addFilm: async (req, res) => {
-        let { name,title,video} = req.body
-        video= `http://localhost:5000/uploads/${video}`
+        let { name,title,fileName} = req.body
+        console.log({name,title,fileName})
+        video = `http://localhost:5000/uploads/${fileName}`
         const img ='http://localhost:5000/uploads/a.jpg'
         // validation
         if (!name)
