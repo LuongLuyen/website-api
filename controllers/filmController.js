@@ -7,7 +7,7 @@ const filmController ={
         let { name,title,fileName} = req.body
         console.log({name,title,fileName})
         video = `http://localhost:5000/uploads/${fileName}`
-        const img ='http://localhost:5000/uploads/a.jpg'
+        const img =`http://localhost:5000/uploads/${Math.floor(Math.random() * 10)}.jpg`
         // validation
         if (!name)
         return 
