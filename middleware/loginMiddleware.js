@@ -9,7 +9,7 @@ const loginMiddleware = {
                 password:"admin123"
             }
             if(username===admin.username && password===admin.password){
-                res.redirect("http://localhost:3000/content/login/upload")
+                res.redirect("https://sparkling-lily-7d02f7.netlify.app//content/login/upload")
             }else{
                 res.send(admin)
             }

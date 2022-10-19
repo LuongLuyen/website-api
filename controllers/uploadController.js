@@ -15,7 +15,6 @@ const uploadController ={
             }
             const filename = `${file.originalname}`
             callback(null, filename)
-            // console.log(diskStorage.getFilename)
         }
         
     })
