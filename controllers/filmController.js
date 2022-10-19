@@ -6,8 +6,9 @@ const filmController ={
     addFilm: async (req, res) => {
         let { name,title,fileName} = req.body
         console.log({name,title,fileName})
-        video = `http://localhost:5000/uploads/${fileName}`
-        const img =`http://localhost:5000/uploads/${Math.floor(Math.random() * 10)}.jpg`
+        const port = 'https://luongluyen-film-server.herokuapp.com/'
+        video = `${port}/uploads/${fileName}`
+        const img =`${port}/uploads/${Math.floor(Math.random() * 10)}.jpg`
         // validation
         if (!name)
         return 
