@@ -5,7 +5,7 @@ const mongoose = require("mongoose")
 const postsRoute = require("./routers/posts")
 
 const app = express()
-const PORT = process.env.port || 5000
+const PORT = process.env.PORT || 5000
 
 dotenv.config()
 
