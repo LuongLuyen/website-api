@@ -9,7 +9,7 @@ const loginMiddleware = {
                 password:"admin123"
             }
             if(username===admin.username && password===admin.password){
-                const port='https://sparkling-lily-7d02f7.netlify.app'
+                const port='https://luongluyen-film-client.netlify.app'
                 res.redirect(`${port}/content/login/upload`)
             }else{
                 res.send(admin)
