@@ -19,7 +19,7 @@ app.use('/uploads', express.static('./uploads'))
 const connectDB = async () => {
 	try {
 		await mongoose.connect(
-			`mongodb+srv://${process.env.ADMIN}@mern-project.47shdst.mongodb.net/?retryWrites=true&w=majority`,
+			`mongodb+srv://luongluyen:luyen123@mern-project.47shdst.mongodb.net/?retryWrites=true&w=majority`,
 			{
 				useNewUrlParser: true,
 				useUnifiedTopology: true,
