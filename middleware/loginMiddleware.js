@@ -10,7 +10,7 @@ const loginMiddleware = {
             }
             if(username===admin.username && password===admin.password){
                 const port='https://luongluyen-film-client.netlify.app'
-                res.redirect(`${port}/content/login/upload`)
+                res.redirect(`${port}/content/upload`)
             }else{
                 res.send(admin)
             }
