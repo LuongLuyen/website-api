@@ -5,9 +5,11 @@ const loginMiddleware = {
     handleLogin: async (req,res,next)=>{
         try{
             const {username,password}= req.body
-            const user = await User.findOne({ username })
-            const pass = await User.findOne({ password})
-            if(username===user && password===pass){
+            const admin ={
+                username:"admin123",
+                password:"admin123"
+            }
+            if(username===admin.username && password===admin.password){
                 const port='https://luongluyen-film-client.netlify.app'
                 res.redirect(`${port}/content/upload`)
             }else{
