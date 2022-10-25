@@ -1,20 +1,21 @@
-const User= require("../models/User")
+const User = require("../models/User")
 
-const userController ={
-    register: async (res,req)=>{
-        const username= req.body
-        const password= req.body
-      
+const filmController ={
+
+    //add user
+    register: async (req, res) => {
+        const { username,password} = req.body
+        console.log(username,password)
         // validation
-        if (!username)
-        return 
-            res.status(400).json()
+        if (!username){
+            return res.status(400).json()
+        }
         try {
             // Check for existing user
             const user = await User.findOne({ username })
-            if (user)
-                return 
-                    res.status(400).json()
+            if (user){
+                return res.status(400).json()
+            }
             //create user
             const newUser = new User({ username,password})
             //user save DB
@@ -23,6 +24,7 @@ const userController ={
         } catch (err) {
             res.status(500).json()
         }
-    }
+    },
 }
-module.exports = userController
+
+module.exports = filmController
