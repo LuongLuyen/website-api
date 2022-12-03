@@ -5,6 +5,7 @@ const loginMiddleware = {
     handleLogin: async (req,res,next)=>{
         try{
             const {username,password}= req.body
+            console.log(username)
             const admin ={
                 username:"admin123",
                 password:"admin123"
