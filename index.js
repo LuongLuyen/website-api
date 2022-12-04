@@ -15,7 +15,7 @@ app.use('/uploads', express.static('./uploads'))
 
 // Add headers before the routes are defined
 app.use(function (req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', `${process.env.REACTURL}`)
+    res.setHeader('Access-Control-Allow-Origin', 'https://luongluyen-film-client.netlify.app')
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE')
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type')
     res.setHeader('Access-Control-Allow-Credentials', true)
@@ -25,7 +25,7 @@ app.use(function (req, res, next) {
 const connectDB = async () => {
 	try {
 		await mongoose.connect(
-			`mongodb+srv://${process.env.ADMIN}@mern-project.47shdst.mongodb.net/?retryWrites=true&w=majority`,
+			`mongodb+srv://luongluyen:luyen123@mern-project.47shdst.mongodb.net/?retryWrites=true&w=majority`,
 			{
 				useNewUrlParser: true,
 				useUnifiedTopology: true,
