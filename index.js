@@ -13,18 +13,19 @@ app.use(express.urlencoded({extended: true}))
 app.use(express.json())
 app.use('/uploads', express.static('./uploads'))
 
-app.use('/', function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*")
-    res.header("Access-Control-Allow-Headers", "X-Requested-With")
+// Add headers before the routes are defined
+app.use(function (req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', `${process.env.REACTURL}`)
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE')
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type')
+    res.setHeader('Access-Control-Allow-Credentials', true)
     next()
 })
-
-
 
 const connectDB = async () => {
 	try {
 		await mongoose.connect(
-			`mongodb+srv://luongluyen:luyen123@mern-project.47shdst.mongodb.net/?retryWrites=true&w=majority`,
+			`mongodb+srv://${process.env.ADMIN}@mern-project.47shdst.mongodb.net/?retryWrites=true&w=majority`,
 			{
 				useNewUrlParser: true,
 				useUnifiedTopology: true,
