@@ -7,12 +7,6 @@ const postsRoute = require("./routers/posts")
 const app = express()
 const PORT = process.env.PORT || 5000
 
-dotenv.config()
-app.use(cors())
-app.use(express.urlencoded({extended: true}))
-app.use(express.json())
-app.use('/uploads', express.static('./uploads'))
-
 // Add headers before the routes are defined
 app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', 'https://luongluyen-film-client.netlify.app')
@@ -21,6 +15,12 @@ app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Credentials', true)
     next()
 })
+dotenv.config()
+app.use(cors())
+app.use(express.urlencoded({extended: true}))
+app.use(express.json())
+app.use('/uploads', express.static('./uploads'))
+
 
 const connectDB = async () => {
 	try {
