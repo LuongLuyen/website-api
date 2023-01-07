@@ -11,7 +11,7 @@ const loginMiddleware = {
                 password:"admin123"
             }
             if(username===admin.username && password===admin.password){
-                const port='https://luongluyen-film-client.netlify.app'
+                const port='https://client-97i3.netlify.app'
                 res.redirect(`${port}/content/upload`)
             }else{
                 res.send(admin)
