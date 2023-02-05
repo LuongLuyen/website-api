@@ -6,7 +6,7 @@ const filmController ={
     addFilm: async (req, res) => {
         let { name,title,fileName} = req.body
         console.log({name,title,fileName})
-        const port = 'https://server-97i3.onrender.com'
+        const port = process.env.URL_SERVER
         video = `${port}/uploads/${fileName}`
         const img =`${port}/uploads/${Math.floor(Math.random() * 10)}.jpg`
         // validation
