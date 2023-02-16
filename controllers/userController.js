@@ -8,21 +8,21 @@ const filmController ={
         console.log(username,password)
         // validation
         if (!username){
-            return res.status(400).json()
+            return res.send("vui lòng điền tk mk")
         }
         try {
             // Check for existing user
             const user = await User.findOne({ username })
             if (user){
-                return res.status(400).json()
+                return res.rend("đã tồn tại tk")
             }
             //create user
             const newUser = new User({ username,password})
             //user save DB
             await newUser.save(newUser)
-            res.status(200).json(newUser)
+            res.rend("tạo thành công")
         } catch (err) {
-            res.status(500).json()
+            res.send("lỗi")
         }
     },
 }
