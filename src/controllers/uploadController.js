@@ -17,13 +17,14 @@ const uploadController ={
             callback(null, filename)
         }
         
-    })
+    }
+    )
     const uploadFile = multer({storage: diskStorage}).single("file")
     uploadFile(req, res, (error) => {
-        if (error) {
-            return res.send('err')
-        }
-        res.send('Upload file thành công')
+            if (error) {
+                return res.send('err')
+            }
+            res.send('Upload file thành công')
     })
     },
     
