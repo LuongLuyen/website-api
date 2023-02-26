@@ -29,8 +29,8 @@ const createNewFilm = async(data)=>{
     let { name,title,fileName} = data
     console.log(name,title,fileName)
     const port = process.env.URL_SERVER
-    video = `${port}/uploads/${fileName}`
-    const img =`${port}/uploads/${Math.floor(Math.random() * 10)}.jpg`
+    video = `${port}/src/uploads/${fileName}`
+    const img =`${port}/src/uploads/${Math.floor(Math.random() * 10)}.jpg`
     
     if (!name){     
         const status="Không bỏ trống tên film"
