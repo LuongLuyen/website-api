@@ -25,29 +25,53 @@ const createNewUser = async(data)=>{
         return err
     }
 }
+
 const createNewFilm = async(data)=>{
     let { name,title,fileName} = data
-    console.log(name,title,fileName)
     const port = process.env.URL_SERVER
-    video = `${port}/src/uploads/${fileName}`
-    const img =`${port}/src/uploads/${Math.floor(Math.random() * 10)}.jpg`
+    video = `${port}/uploads/${fileName}`
+    const img =`${port}/uploads/${Math.floor(Math.random() * 10)}.jpg`
+    console.log("data-form",[name,title,video,img])
     
     if (!name){     
-        const status="Không bỏ trống tên film"
-        return status
+        return name
     }try {
         const film = await Film.findOne({ name })
         if (film){
-            const status=`$tên film đã tồn tại${film}`
-            return status
+            return film
         }
         const newFilm = new Film({ name,title, video,img})
-        await newFilm.save(newFilm)
-        const status="Đăng phim thành công"
-        return status
+        newFilm.save(newFilm)
+        return newFilm
     } catch (err) {
         return err
     }
+
+}
+
+const createVideo = async(req,res)=>{
+    const diskStorage = multer.diskStorage({
+        destination: (req, file, callback) => {
+            callback(null, "uploads")
+        },
+        filename: (req, file, callback) => {
+            const math = ["image/png", "image/jpeg","video/mp4"]
+            if (math.indexOf(file.mimetype) === -1) {
+                return callback(null)
+            }
+            const filename = `${file.originalname}`
+            callback(null, filename)
+        }
+    })
+    const uploadFile = multer({storage: diskStorage}).single("file")
+    uploadFile(req, res, (err) => {
+        if (err) {
+            const status = "lỗi"
+            return status
+        }
+        const status ="Upload file thành công"
+        return status
+    })
 
 }
 
@@ -61,6 +85,7 @@ const getAllUser = async()=>{
         }
     })
 }
+
 const getAllFilm = async()=>{
     return new Promise(async(resolve,reject) => {
         try {
@@ -71,10 +96,39 @@ const getAllFilm = async()=>{
         }
     })
 }
+const loginUser = async(req,res)=>{
+    const { username,password} = req.body
+    console.log([username,password])
+        if (!username){
+            const status = "Vui lòng điền tài khoản hoặc mật khẩu"
+            return status
+        }
+        try {
+            const port=process.env.URL_CLIENT
+            const user = await User.findOne({ username })
+            const admin={
+                userAdmin:"admin123",
+                passwordAdmin:"admin123"
+            }
+            if(username===admin.userAdmin&& password===admin.passwordAdmin){
+                res.redirect(`${port}/content/upload`)
+            }else if(user.username===username && user.password===password) {
+                res.redirect(`${port}/content`)
+            }else{
+                res.redirect(`${port}/login`)
+            }
+        } catch (err) {
+            const status =`Lỗi:.....:${err}`
+            return status
+        }
+
+}
 
 module.exports={
     createNewUser:createNewUser,
     createNewFilm:createNewFilm,
+    createVideo:createVideo,
     getAllUser:getAllUser,
-    getAllFilm:getAllFilm
+    getAllFilm:getAllFilm,
+    loginUser:loginUser
 }
