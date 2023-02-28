@@ -21,7 +21,7 @@ app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Credentials', true)
     next()
 })
-
+mongoose.set("strictQuery", false)
 const connectDB = async () => {
 	try {
 		await mongoose.connect(
