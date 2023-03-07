@@ -1,5 +1,10 @@
+const { Router } = require("express")
 const homeController = require("../controllers/homeController")
 const router = require("express").Router()
+
+router.get('/', (req,res)=>{
+	res.send(`server is running on port 5000`)
+})
 
 //    http://localhost:5000/api/posts/film
 router.get('/film', homeController.getCRUDAllFilm)
@@ -19,5 +24,8 @@ router.post('/add',homeController.postCRUDNewFilm)
 //    Route này Xử lý khi client thực hiện hành động upload file
 //    http://localhost:5000/api/posts/upload
 router.post("/upload",homeController.postVideo)
+
+//    http://localhost:5000/api/posts/delete-user
+router.delete("/delete-user",homeController.deleteCURDUser)
 
 module.exports= router

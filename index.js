@@ -2,9 +2,13 @@ const express  = require("express")
 const dotenv = require("dotenv")
 const cors = require("cors")
 const mongoose = require("mongoose")
+const http = require("http")
 const postsRoute = require("./src/routers/posts")
+const Msg = require('./src/models/Msg')
 
 const app = express()
+const server = http.createServer(app)
+const socketIo = require("socket.io")(server, {cors: {origin: "*"}})
 const PORT = process.env.PORT || 5000
 
 dotenv.config()
@@ -21,7 +25,7 @@ app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Credentials', true)
     next()
 })
-mongoose.set("strictQuery", false)
+mongoose.set("strictQuery", true)
 const connectDB = async () => {
 	try {
 		await mongoose.connect(
@@ -37,11 +41,26 @@ const connectDB = async () => {
 		process.exit(1)
 	}
 }
-
 connectDB()
+
+socketIo.on("connection", (socket) => {
+	console.log("New client connected" +" "+ socket.id);
+  
+	socket.emit("getId", socket.id)
+  
+	socket.on("sendDataClient",(data)=> {
+		//save db
+	  console.log("data",[data])
+	  socketIo.emit("sendDataServer", { data })
+	})
+  
+	socket.on("disconnect", () => {
+	  console.log("Client disconnected")
+	})
+  })
 
 
 app.use('/api/posts', postsRoute)
-app.listen(PORT, ()=>{
+server.listen(PORT, ()=>{
     console.log(`server is running on port ${PORT}`)
 })

@@ -111,7 +111,7 @@ const loginUser = async(req,res)=>{
                 passwordAdmin:"admin123"
             }
             if(username===admin.userAdmin&& password===admin.passwordAdmin){
-                res.redirect(`${port}/content/upload`)
+                res.redirect(`${port}/upload`)
             }else if(user.username===username && user.password===password) {
                 res.redirect(`${port}/content`)
             }else{
@@ -123,6 +123,7 @@ const loginUser = async(req,res)=>{
         }
 
 }
+const deleteUser = async(req,res)=>{}
 
 module.exports={
     createNewUser:createNewUser,
@@ -130,5 +131,6 @@ module.exports={
     createVideo:createVideo,
     getAllUser:getAllUser,
     getAllFilm:getAllFilm,
-    loginUser:loginUser
+    loginUser:loginUser,
+    deleteUser:deleteUser,
 }
