@@ -43,15 +43,15 @@ const connectDB = async () => {
 }
 connectDB()
 
-socketIo.on("connection", (socket) => {
-	console.log("New client connected" +" "+ socket.id);
-  
-	socket.emit("getId", socket.id)
+socketIo.on("connection",(socket) => {
+	console.log("New client connected")
   
 	socket.on("sendDataClient",(data)=> {
+		socketIo.emit("sendDataServer", { data })
 		//save db
-	  console.log("data",[data])
-	  socketIo.emit("sendDataServer", { data })
+		const{sender,content}=data
+		const newMsg = new Msg({ sender,content})
+		newMsg.save(newMsg)
 	})
   
 	socket.on("disconnect", () => {

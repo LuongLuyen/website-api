@@ -8,15 +8,15 @@ router.get('/', (req,res)=>{
 
 //    http://localhost:5000/api/posts/film
 router.get('/film', homeController.getCRUDAllFilm)
-//    http://localhost:5000/api/posts/user
-router.get('/user', homeController.getCRUDAllUser)
+
+//    http://localhost:5000/api/posts/msg
+router.get('/msg', homeController.getCRUDAllMsg)
 
 
 //    http://localhost:5000/api/posts/register
 router.post('/register', homeController.postCRUDNewUser)
 //    http://localhost:5000/api/posts/login
 router.post('/login', homeController.postCRUDLoginUser)
-
 
 
 //    http://localhost:5000/api/posts/add

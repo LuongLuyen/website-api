@@ -1,5 +1,6 @@
 const User = require("../models/User")
 const Film = require("../models/Film")
+const Msg = require("../models/Msg")
 const multer = require("multer")
 
 
@@ -75,11 +76,14 @@ const createVideo = async(req,res)=>{
 
 }
 
-const getAllUser = async()=>{
+
+
+
+const getAllMsg = async()=>{
     return new Promise(async(resolve,reject) => {
         try {
-            const user= await User.find()
-            resolve(user)
+            const msg= await Msg.find()
+            resolve(msg)
         } catch (err) {
             reject(err)
         }
@@ -97,8 +101,7 @@ const getAllFilm = async()=>{
     })
 }
 const loginUser = async(req,res)=>{
-    const { username,password} = req.body
-    console.log([username,password])
+    const {username,password}=req.body
         if (!username){
             const status = "Vui lòng điền tài khoản hoặc mật khẩu"
             return status
@@ -106,13 +109,7 @@ const loginUser = async(req,res)=>{
         try {
             const port=process.env.URL_CLIENT
             const user = await User.findOne({ username })
-            const admin={
-                userAdmin:"admin123",
-                passwordAdmin:"admin123"
-            }
-            if(username===admin.userAdmin&& password===admin.passwordAdmin){
-                res.redirect(`${port}/upload`)
-            }else if(user.username===username && user.password===password) {
+            if(user.username===username && user.password===password) {
                 res.redirect(`${port}/content`)
             }else{
                 res.redirect(`${port}/login`)
@@ -129,7 +126,7 @@ module.exports={
     createNewUser:createNewUser,
     createNewFilm:createNewFilm,
     createVideo:createVideo,
-    getAllUser:getAllUser,
+    getAllMsg:getAllMsg,
     getAllFilm:getAllFilm,
     loginUser:loginUser,
     deleteUser:deleteUser,

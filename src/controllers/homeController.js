@@ -5,8 +5,9 @@ const getCRUDAllFilm = async(req,res)=>{
     const data = await CRUDservice.getAllFilm()
     return res.json(data)
 }
-const getCRUDAllUser = async(req,res)=>{
-    const data = await CRUDservice.getAllUser()
+
+const getCRUDAllMsg = async(req,res)=>{
+    const data = await CRUDservice.getAllMsg()
     return res.json(data)
 }
 
@@ -39,10 +40,8 @@ const deleteCURDFilm =async()=>{
 
 }
 
-
-
 module.exports={
-    getCRUDAllUser:getCRUDAllUser,
+    getCRUDAllMsg:getCRUDAllMsg,
     getCRUDAllFilm:getCRUDAllFilm,
     postCRUDNewFilm:postCRUDNewFilm,
     postVideo:postVideo,
