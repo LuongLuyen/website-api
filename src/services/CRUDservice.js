@@ -121,6 +121,18 @@ const loginUser = async(req,res)=>{
 
 }
 const deleteUser = async(req,res)=>{}
+const deleteMes = async(req,res)=>{
+    return new Promise(async(resolve,reject) => {
+        try {
+            const id = req.params.id
+            await Msg.deleteOne({ id:id })
+            const data= await Msg.find()
+            resolve(data)
+        } catch (err) {
+            reject(err)
+        }
+    })
+}
 
 module.exports={
     createNewUser:createNewUser,
@@ -130,4 +142,5 @@ module.exports={
     getAllFilm:getAllFilm,
     loginUser:loginUser,
     deleteUser:deleteUser,
+    deleteMes:deleteMes
 }

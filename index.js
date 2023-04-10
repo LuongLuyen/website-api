@@ -49,8 +49,8 @@ socketIo.on("connection",(socket) => {
 	socket.on("sendDataClient",(data)=> {
 		socketIo.emit("sendDataServer", { data })
 		//save db
-		const{sender,content}=data
-		const newMsg = new Msg({ sender,content})
+		const{id,sender,content}=data
+		const newMsg = new Msg({ id,sender,content})
 		newMsg.save(newMsg)
 	})
   

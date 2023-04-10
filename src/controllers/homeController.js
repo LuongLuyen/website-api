@@ -32,11 +32,15 @@ const postCRUDLoginUser = async(req,res)=>{
     return res.json(data)
 }
 //delete CURD
-const deleteCURDUser =async(req,res)=>{
+const deleteCRUDUser =async(req,res)=>{
     const data = await CRUDservice.deleteUser(req,res)
     return res.json(data)
 }
-const deleteCURDFilm =async()=>{
+const deleteCRUDMes =async(req,res)=>{
+    const data = await CRUDservice.deleteMes(req,res)
+    return res.json(data)
+}
+const deleteCRUDFilm =async()=>{
 
 }
 
@@ -47,6 +51,7 @@ module.exports={
     postVideo:postVideo,
     postCRUDNewUser:postCRUDNewUser,
     postCRUDLoginUser:postCRUDLoginUser,
-    deleteCURDUser:deleteCURDUser,
-    deleteCURDFilm:deleteCURDFilm,
+    deleteCRUDUser:deleteCRUDUser,
+    deleteCRUDFilm:deleteCRUDFilm,
+    deleteCRUDMes:deleteCRUDMes
 }

@@ -26,6 +26,8 @@ router.post('/add',homeController.postCRUDNewFilm)
 router.post("/upload",homeController.postVideo)
 
 //    http://localhost:5000/api/posts/delete-user
-router.delete("/delete-user",homeController.deleteCURDUser)
+router.delete("/delete-user",homeController.deleteCRUDUser)
+//    http://localhost:5000/api/posts/delete-mes/:id
+router.delete("/delete-mes/:id",homeController.deleteCRUDMes)
 
 module.exports= router
