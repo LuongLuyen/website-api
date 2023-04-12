@@ -26,13 +26,11 @@ const createNewUser = async(data)=>{
         return err
     }
 }
-
 const createNewFilm = async(data)=>{
-    let { name,title,fileName} = data
+    let { name,type,fileName} = data
     const port = process.env.URL_SERVER
     video = `${port}/uploads/${fileName}`
-    const img =`${port}/uploads/${Math.floor(Math.random() * 10)}.jpg`
-    console.log("data-form",[name,title,video,img])
+    const img =`${port}/uploads/${type}.jpg`
     
     if (!name){     
         return name
@@ -41,7 +39,7 @@ const createNewFilm = async(data)=>{
         if (film){
             return film
         }
-        const newFilm = new Film({ name,title, video,img})
+        const newFilm = new Film({ name,type, video,img})
         newFilm.save(newFilm)
         return newFilm
     } catch (err) {
@@ -49,56 +47,38 @@ const createNewFilm = async(data)=>{
     }
 
 }
-
 const createVideo = async(req,res)=>{
-    const diskStorage = multer.diskStorage({
-        destination: (req, file, callback) => {
-            callback(null, "uploads")
-        },
-        filename: (req, file, callback) => {
-            const math = ["image/png", "image/jpeg","video/mp4"]
-            if (math.indexOf(file.mimetype) === -1) {
-                return callback(null)
+    return new Promise(async(resolve,reject) => {
+        const diskStorage = multer.diskStorage({
+                destination: (req, file, callback) => {
+                    callback(null, "uploads")
+                },
+                filename: (req, file, callback) => {
+                    const math = ["image/png", "image/jpeg","video/mp4"]
+                    if (math.indexOf(file.mimetype) === -1) {
+                        return callback(null)
+                    }
+                    const filename = `${file.originalname}`
+                    callback(null, filename)
+                }
+        })
+        const uploadFile = multer({storage: diskStorage}).single("file")
+        uploadFile(req, res, (err) => {
+            try {
+                if(err){
+                    return err
+                }
+                if(req.file){
+                    resolve (`${process.env.URL_SERVER}/uploads/${req.file.filename}`)
+                }else{
+                    resolve(null)
+                }
+            } catch (error) {
+                reject(error)
             }
-            const filename = `${file.originalname}`
-            callback(null, filename)
-        }
-    })
-    const uploadFile = multer({storage: diskStorage}).single("file")
-    uploadFile(req, res, (err) => {
-        if (err) {
-            const status = "lỗi"
-            return status
-        }
-        const status ="Upload file thành công"
-        return status
+        })
     })
 
-}
-
-
-
-
-const getAllMsg = async()=>{
-    return new Promise(async(resolve,reject) => {
-        try {
-            const msg= await Msg.find()
-            resolve(msg)
-        } catch (err) {
-            reject(err)
-        }
-    })
-}
-
-const getAllFilm = async()=>{
-    return new Promise(async(resolve,reject) => {
-        try {
-            const film= await Film.find()
-            resolve(film)
-        } catch (err) {
-            reject(err)
-        }
-    })
 }
 const loginUser = async(req,res)=>{
     const {username,password}=req.body
@@ -120,7 +100,43 @@ const loginUser = async(req,res)=>{
         }
 
 }
-const deleteUser = async(req,res)=>{}
+
+
+
+
+const getAllMsg = async()=>{
+    return new Promise(async(resolve,reject) => {
+        try {
+            const msg= await Msg.find()
+            resolve(msg)
+        } catch (err) {
+            reject(err)
+        }
+    })
+}
+const getAllFilm = async()=>{
+    return new Promise(async(resolve,reject) => {
+        try {
+            const film= await Film.find()
+            resolve(film)
+        } catch (err) {
+            reject(err)
+        }
+    })
+}
+
+
+const deleteUser = async(req,res)=>{
+    return new Promise(async(resolve,reject) => {
+        try {
+            const user = req.params.username
+            await User.deleteOne({ username:user })
+            resolve(user)
+        } catch (err) {
+            reject(err)
+        }
+    })
+}
 const deleteMes = async(req,res)=>{
     return new Promise(async(resolve,reject) => {
         try {
