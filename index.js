@@ -19,7 +19,7 @@ app.use('/uploads', express.static('./uploads'))
 
 // Add headers before the routes are defined
 app.use(function (req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', process.env.URL_CLIENT)
+    res.setHeader('Access-Control-Allow-Origin', "*")
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE')
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type')
     res.setHeader('Access-Control-Allow-Credentials', true)
@@ -50,8 +50,10 @@ socketIo.on("connection",(socket) => {
 		socketIo.emit("sendDataServer", { data })
 		//save db
 		const{id,sender,content}=data
-		const newMsg = new Msg({ id,sender,content})
-		newMsg.save(newMsg)
+		if(content){
+			const newMsg = new Msg({ id,sender,content})
+			newMsg.save(newMsg)
+		}
 	})
   
 	socket.on("disconnect", () => {

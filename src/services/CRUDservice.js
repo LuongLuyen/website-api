@@ -3,35 +3,28 @@ const Film = require("../models/Film")
 const Msg = require("../models/Msg")
 const multer = require("multer")
 
-
 const createNewUser = async(data)=>{
-    const { username,password} = data
-
-
-    if (!username){
-        const status =`vui lòng điền tk mk?${username}`
-        return status
-    }
-    try {
-        const user = await User.findOne({ username })
-        if (user){
-            const status=`đã tồn tại:${user}`
-            return status
+    return new Promise(async(resolve,reject) => {
+        const { username,password} = data
+        if (!username){
+            return 
         }
-        const newUser = new User({ username,password})
-        await newUser.save(newUser)
-        const status=`Tạo thành công${newUser}`
-        return status
-    } catch (err) {
-        return err
-    }
+        try {
+            const user = await User.findOne({ username })
+            if (user){
+                return 
+            }
+            const newUser = new User({ username,password})
+            newUser.save(newUser)
+            resolve(newUser)
+        } catch (err) {
+            reject(err)
+        }
+    })
 }
 const createNewFilm = async(data)=>{
-    let { name,type,fileName} = data
-    const port = process.env.URL_SERVER
-    video = `${port}/uploads/${fileName}`
-    const img =`${port}/uploads/${type}.jpg`
-    
+    const { name,type,video,img} = data
+    console.log([name,type,video,img])
     if (!name){     
         return name
     }try {
@@ -58,7 +51,8 @@ const createVideo = async(req,res)=>{
                     if (math.indexOf(file.mimetype) === -1) {
                         return callback(null)
                     }
-                    const filename = `${file.originalname}`
+                    const date =`${Date.now()}`
+                    const filename = `${date.slice(0,9)}${file.originalname}`
                     callback(null, filename)
                 }
         })
@@ -114,6 +108,16 @@ const getAllMsg = async()=>{
         }
     })
 }
+const getAllUser = async()=>{
+    return new Promise(async(resolve,reject) => {
+        try {
+            const user= await User.find()
+            resolve(user)
+        } catch (err) {
+            reject(err)
+        }
+    })
+}
 const getAllFilm = async()=>{
     return new Promise(async(resolve,reject) => {
         try {
@@ -131,7 +135,8 @@ const deleteUser = async(req,res)=>{
         try {
             const user = req.params.username
             await User.deleteOne({ username:user })
-            resolve(user)
+            const userOld= await User.find()
+            resolve(userOld)
         } catch (err) {
             reject(err)
         }
@@ -156,6 +161,7 @@ module.exports={
     createVideo:createVideo,
     getAllMsg:getAllMsg,
     getAllFilm:getAllFilm,
+    getAllUser:getAllUser,
     loginUser:loginUser,
     deleteUser:deleteUser,
     deleteMes:deleteMes
