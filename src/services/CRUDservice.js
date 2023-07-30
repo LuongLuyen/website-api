@@ -75,13 +75,13 @@ const createVideo = async(req,res)=>{
 
 }
 const loginUser = async(req,res)=>{
+    const port=process.env.URL_CLIENT
     const {username,password}=req.body
         if (!username){
-            const status = "Vui lòng điền tài khoản hoặc mật khẩu"
-            return status
+            res.redirect(`${port}/error`)
+            return
         }
         try {
-            const port=process.env.URL_CLIENT
             const user = await User.findOne({ username })
             if(user.username===username && user.password===password) {
                 res.redirect(`${port}/content`)
@@ -89,8 +89,8 @@ const loginUser = async(req,res)=>{
                 res.redirect(`${port}/login`)
             }
         } catch (err) {
-            const status =`Lỗi:.....:${err}`
-            return status
+            res.redirect(`${port}/error`)
+            return
         }
 
 }
