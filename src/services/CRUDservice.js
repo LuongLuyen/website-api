@@ -3,6 +3,7 @@ const Film = require("../models/Film")
 const Msg = require("../models/Msg")
 const multer = require("multer")
 
+
 const createNewUser = async(data)=>{
     return new Promise(async(resolve,reject) => {
         const { username,password} = data
@@ -41,6 +42,7 @@ const createNewFilm = async(data)=>{
 
 }
 const createVideo = async(req,res)=>{
+    const domainServer = process.env.SERVER
     return new Promise(async(resolve,reject) => {
         const diskStorage = multer.diskStorage({
                 destination: (req, file, callback) => {
@@ -63,7 +65,7 @@ const createVideo = async(req,res)=>{
                     return err
                 }
                 if(req.file){
-                    resolve (`${process.env.URL_SERVER}/uploads/${req.file.filename}`)
+                    resolve (`${domainServer}/uploads/${req.file.filename}`)
                 }else{
                     resolve(null)
                 }
@@ -75,23 +77,23 @@ const createVideo = async(req,res)=>{
 
 }
 const loginUser = async(req,res)=>{
-    const port=process.env.URL_CLIENT
+    const domainClient = process.env.CLIENT
     const {username,password}=req.body
-        if (!username){
-            res.redirect(`${port}/error`)
-            return
+    if (!username){
+        res.redirect(`${domainClient}/error`)
+        return
+    }
+    try {
+        const user = await User.findOne({ username })
+        if(user.username===username && user.password===password) {
+            res.redirect(`${domainClient}/content`)
+        }else{
+            res.redirect(`${domainClient}/login`)
         }
-        try {
-            const user = await User.findOne({ username })
-            if(user.username===username && user.password===password) {
-                res.redirect(`${port}/content`)
-            }else{
-                res.redirect(`${port}/login`)
-            }
-        } catch (err) {
-            res.redirect(`${port}/error`)
-            return
-        }
+    } catch (err) {
+        res.redirect(`${domainClient}/error`)
+        return
+    }
 
 }
 
